@@ -9,6 +9,11 @@ import {
   Divider,
   CardContent,
 } from "@mui/material";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
 
@@ -52,13 +57,35 @@ const Installers = ({ filterSoftwares, setCartSoftwares, cartsoftwares }) => {
                     Remove From Cart
                   </Button>
                 ) : (
-                  <Button
-                    variant="outlined"
-                    onClick={() => setCartSoftwares([...cartsoftwares, fSoft])}
-                  >
-                    <AddShoppingCartIcon />
-                    Add To Cart
-                  </Button>
+                  <>
+                    {/* <FormControl sx={{width:'100px',height:'20px'}}>
+                      <InputLabel id="demo-simple-select-label">
+                        Version
+                      </InputLabel>
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        label="version"
+                        onChange={(event) =>
+                          (fSoft.selectedVersion = event.target.value)
+                        }
+                      >
+                        {fSoft?.versions?.length &&
+                          fSoft.versions.map((ver) => (
+                            <MenuItem value={ver}>{ver}</MenuItem>
+                          ))}
+                      </Select>
+                    </FormControl> */}
+                    <Button
+                      variant="outlined"
+                      onClick={() =>
+                        setCartSoftwares([...cartsoftwares, fSoft])
+                      }
+                    >
+                      <AddShoppingCartIcon />
+                      Add To Cart
+                    </Button>
+                  </>
                 )}
               </CardContent>
             </CardContent>

@@ -7,7 +7,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-
+import { Navigate, useNavigate } from "react-router-dom";
 import Badge from "@mui/material/Badge";
 import { styled } from "@mui/material/styles";
 
@@ -16,6 +16,7 @@ import Installers from "./Installers";
 import InstallationStepper from "./InstallationStepper";
 
 export default function Cart() {
+  const navigate = useNavigate();
   const [filterSoftwares, setFilterSoftwares] = useState(softwares);
   const [cartsoftwares, setCartSoftwares] = useState([]);
   const [keyword, setKeyword] = useState("");
@@ -48,26 +49,27 @@ export default function Cart() {
     <Box>
       <Grid container spacing={2}>
         <Grid item xs={12} md={12}>
+          <TextField
+            id="standard-basic"
+            label="Search"
+            variant="standard"
+            autoComplete="off"
+            onChange={(e) => setKeyword(e.target.value)}
+            sx={{ marginLeft: "15px" }}
+          />
           <Box
             sx={{
               float: "right",
             }}
           >
-            <TextField
-              id="standard-basic"
-              label="Search"
-              variant="standard"
-              autoComplete="off"
-              onChange={(e) => setKeyword(e.target.value)}
-              sx={{ marginTop: "5px"}}
-
-            />
+            <Button variant="outlined" onClick={() => navigate("/")}>
+              Back to Home
+            </Button>
             <Button
               variant="outlined"
               sx={{ marginTop: "15px", margin: "10px" }}
               onClick={() => setOpenDrawer(true)}
             >
-             
               {cartsoftwares.length ? (
                 <StyledBadge
                   badgeContent={cartsoftwares.length}
@@ -93,11 +95,10 @@ export default function Cart() {
       </Grid>
       <Drawer
         open={openDrawer}
-        
         anchor="right"
         PaperProps={{ sx: { width: "50%" } }}
       >
-        <Box sx={{ marginLeft: "20px", display:'flex',}}>
+        <Box sx={{ marginLeft: "20px", display: "flex" }}>
           <h2>Install Softwares</h2>
         </Box>
         <Divider />
@@ -108,9 +109,13 @@ export default function Cart() {
           />
         </Box>
         <Box>
-            <Button sx={{float:'right',marginRight:'10px'}} variant="outlined" onClick={() => setOpenDrawer(false)}>
-                Close
-            </Button>
+          <Button
+            sx={{ float: "right", marginRight: "10px" }}
+            variant="outlined"
+            onClick={() => setOpenDrawer(false)}
+          >
+            Close
+          </Button>
         </Box>
       </Drawer>
     </Box>
