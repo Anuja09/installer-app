@@ -37,3 +37,12 @@ export const InstallingSteps=[
         label:'Install Softwares'
     }
 ]
+
+export const Users=[
+
+  {
+    username:'5606887',
+    password:'Welcome@123',
+    name:'Ushasri'
+  }
+]
