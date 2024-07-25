@@ -1,0 +1,55 @@
+name: Build and Deploy React App
+
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build:
+    runs-on: self-hosted-git-runner
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build the app
+        run: npm run build
+
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: build
+          path: build
+
+  deploy:
+    runs-on: self-hosted-git-runner
+    needs: build
+
+    steps:
+      - name: Download production artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: build
+
+      - name: Set up Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          version: 'latest'
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          service_account_key: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
+
+      - name: Authenticate to Google Cloud
+        run: gcloud auth activate-service-account --key-file=${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
+
+      - name: Deploy to Google Cloud Storage
+        run: |
+          gsutil -m rsync -r build gs://installer-app-bucket
+          gsutil web set -m index.html -e 404.html gs://installer-app-bucket
