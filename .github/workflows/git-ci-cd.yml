@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    runs-on: self-hosted-git-runner
+    runs-on: app-runner
 
     steps:
       - name: Checkout code
@@ -34,7 +34,7 @@ jobs:
           path: build
 
   deploy:
-    runs-on: self-hosted-git-runner
+    runs-on: app-runner
     needs: build
 
     steps:
